@@ -1,0 +1,21 @@
+# macOS files
+.DS_Store
+
+# KDE Folder Parameters file
+.directory
+
+# Ignore IDE specific files
+.vscode/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# vim files
+*.swo
+*.swp
+
+*.o
+
+.env
