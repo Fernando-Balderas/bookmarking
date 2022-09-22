@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  # bookmarking-api:
+  #   build: api
+  #   tty: true
+  #   restart: unless-stopped
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     DB_HOST: bookmarking-db
+  #     DB_PORT: 5432
+  #     DB_NAME: bookmarking
+  #     DB_USER: postgres
+  #     DB_PASS: examplepassword
+  #   volumes:
+  #     - "./api:/home"
+
+  bookmarking-db:
+    image: postgres:14.3
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: examplepassword
+      POSTGRES_DB: bookmarking

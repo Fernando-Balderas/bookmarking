@@ -7,11 +7,6 @@
 # Ignore IDE specific files
 .vscode/
 
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*.pyc
-
 # vim files
 *.swo
 *.swp

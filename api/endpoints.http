@@ -1,0 +1,1 @@
+GET http://localhost:5000/api/v1/bookmarks HTTP/1.1
