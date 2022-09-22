@@ -19,11 +19,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    print(app.config)
-
     db.init_app(app)
     with app.app_context():
-        # db.drop_all()
+        db.drop_all()
         db.create_all()
 
     app.register_blueprint(bookmarks_bp, url_prefix="/api/v1/bookmarks")
