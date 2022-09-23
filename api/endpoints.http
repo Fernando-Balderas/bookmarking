@@ -1,11 +1,45 @@
+### BOOKMARKS
 GET http://localhost:5000/api/v1/bookmarks HTTP/1.1
 
-### 
+###
+GET http://localhost:5000/api/v1/bookmarks/folders/1 HTTP/1.1
+
+
+###
 POST http://localhost:5000/api/v1/bookmarks HTTP/1.1
 Content-Type: application/json
 
 {
     "name": "my bookmarking",
     "url": "http://this.is/a/bookmarking",
-    "folderId": "1"
+    "folderId": 1
+}
+
+###
+PUT http://localhost:5000/api/v1/bookmarks/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "my bookmarking updated",
+    "url": "http://this.is/a/bookmarking/updated",
+    "folderId": 1
+}
+
+###
+DELETE http://localhost:5000/api/v1/bookmarks/1 HTTP/1.1
+
+
+
+
+
+### FOLDERS
+GET http://localhost:5000/api/v1/folders HTTP/1.1
+
+### 
+POST http://localhost:5000/api/v1/folders HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "shared",
+    "description": "shared folder with friends"
 }

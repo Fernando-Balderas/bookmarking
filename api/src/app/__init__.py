@@ -3,6 +3,7 @@ from flask import Flask
 from flask_cors import CORS
 from .models import *
 from .routes.bookmarks import bookmarks_bp
+from .routes.folders import folders_bp
 
 
 def create_app(test_config=None):
@@ -21,9 +22,10 @@ def create_app(test_config=None):
 
     db.init_app(app)
     with app.app_context():
-        db.drop_all()
+        # db.drop_all()
         db.create_all()
 
     app.register_blueprint(bookmarks_bp, url_prefix="/api/v1/bookmarks")
+    app.register_blueprint(folders_bp, url_prefix="/api/v1/folders")
 
     return app
