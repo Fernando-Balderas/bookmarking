@@ -10,10 +10,8 @@ bookmarks_bp = Blueprint("bookmarks", __name__)
 def bookmarks():
     if request.method == "POST":
         body = request.get_json()
-        print(body)
         bookmark = Bookmark(name=body.get("name"), url=body.get(
             "url"), folder_id=body.get("folderId"))
-        print(bookmark)
         db.session.add(bookmark)
         db.session.commit()
         return jsonify({
@@ -21,8 +19,7 @@ def bookmarks():
             "data": bookmark.serialize
         }), status.HTTP_201_CREATED
     bookmarks = db.session.execute(db.select(Bookmark)).scalars().all()
-    print(bookmarks)
-    # not found
+    # TODO: Add not found response
     return jsonify({"data": [b.serialize for b in bookmarks]})
 
 
@@ -30,8 +27,7 @@ def bookmarks():
 def bookmarks_in_folder(folder_id):
     bookmarks = db.session.execute(
         db.select(Bookmark).where(Bookmark.folder_id == folder_id)).scalars().all()
-    print(bookmarks)
-    # not found
+    # TODO: Add not found response
     return jsonify({"data": [b.serialize for b in bookmarks]})
 
 
@@ -40,7 +36,6 @@ def bookmark(bookmark_id):
     try:
         bookmark = db.session.execute(
             db.select(Bookmark).where(Bookmark.id == bookmark_id)).scalars().one()
-        print(bookmark)
         if request.method == "PUT":
             body = request.get_json()
             bookmark.name = body.get("name")
@@ -54,8 +49,6 @@ def bookmark(bookmark_id):
             message = "Bookmark deleted"
         return jsonify({"message": message, "data": bookmark_id})
     except exc.SQLAlchemyError as e:
-        # print(e)
-        # print(type(e).__name__)
         if isinstance(e, exc.NoResultFound):
             return jsonify({"message": "Bookmark not found"}), status.HTTP_404_NOT_FOUND
         elif isinstance(e, exc.IntegrityError):

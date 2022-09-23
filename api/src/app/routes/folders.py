@@ -16,8 +16,7 @@ def folders():
         db.session.commit()
         return jsonify({"message": "Folder created", "data": folder.serialize}), status.HTTP_201_CREATED
     folders = db.session.execute(db.select(Folder)).scalars().all()
-    print(folders)
-    # not found
+    # TODO: Add not found response
     return jsonify({"data": [f.serialize for f in folders]})
 
 
@@ -26,7 +25,6 @@ def folder(folder_id):
     try:
         folder = db.session.execute(
             db.select(Folder).where(Folder.id == folder_id)).scalars().one()
-        print(folder)
         if request.method == "PUT":
             body = request.get_json()
             folder.name = body.get("name")
@@ -39,5 +37,6 @@ def folder(folder_id):
             message = "Folder deleted"
         return jsonify({"message": message, "data": folder_id})
     except exc.SQLAlchemyError as e:
-        print(e)
+        if isinstance(e, exc.NoResultFound):
+            return jsonify({"message": "Bookmark not found"}), status.HTTP_404_NOT_FOUND
         return jsonify({"message": "Error"}), status.HTTP_500_INTERNAL_SERVER_ERROR
