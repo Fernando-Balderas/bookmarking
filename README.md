@@ -34,5 +34,11 @@ flask --app app --debug run
 curl localhost:5000/api/v1/bookmarks
 ```
 
+## Testing
+```bash
+pytest -Wignore
+coverage run -m pytest -Wignore
+```
+
 ## Use psql into container terminal (optional)
 docker exec -ti bookmarking-bookmarking-db-1 psql -U postgres

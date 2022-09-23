@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from .models import *
+from .routes.hello import hello_bp
 from .routes.bookmarks import bookmarks_bp
 from .routes.folders import folders_bp
 
@@ -25,6 +26,7 @@ def create_app(test_config=None):
         # db.drop_all()
         db.create_all()
 
+    app.register_blueprint(hello_bp)
     app.register_blueprint(bookmarks_bp, url_prefix="/api/v1/bookmarks")
     app.register_blueprint(folders_bp, url_prefix="/api/v1/folders")
 
