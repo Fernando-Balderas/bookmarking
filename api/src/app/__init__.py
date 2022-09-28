@@ -26,6 +26,8 @@ def create_app(test_config=None):
         db.init_app(app)
         # db.drop_all()
         db.create_all()
+        # print(db.get_engine())
+    # create_db(app)
 
     app.register_blueprint(hello_bp)
     app.register_blueprint(bookmarks_bp, url_prefix="/api/v1/bookmarks")
