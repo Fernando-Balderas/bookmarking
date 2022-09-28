@@ -8,19 +8,22 @@ bookmarks_bp = Blueprint("bookmarks", __name__)
 
 @bookmarks_bp.route("", methods=["GET", "POST"])
 def bookmarks():
-    if request.method == "POST":
-        body = request.get_json()
-        bookmark = Bookmark(name=body.get("name"), url=body.get(
-            "url"), folder_id=body.get("folderId"))
-        db.session.add(bookmark)
-        db.session.commit()
-        return jsonify({
-            "message": "Bookmark created",
-            "data": bookmark.serialize
-        }), status.HTTP_201_CREATED
-    bookmarks = db.session.execute(db.select(Bookmark)).scalars().all()
-    # TODO: Add not found response
-    return jsonify({"data": [b.serialize for b in bookmarks]})
+    try:
+        if request.method == "POST":
+            body = request.get_json(force=True)
+            bookmark = Bookmark(name=body.get("name"), url=body.get(
+                "url"), folder_id=body.get("folderId"))
+            db.session.add(bookmark)
+            db.session.commit()
+            return jsonify({
+                "message": "Bookmark created",
+                "data": bookmark.serialize
+            }), status.HTTP_201_CREATED
+        bookmarks = db.session.execute(db.select(Bookmark)).scalars().all()
+        # TODO: Add not found response
+        return jsonify({"data": [b.serialize for b in bookmarks]})
+    except exc.SQLAlchemyError as e:
+        return jsonify({"message": "Error"}), 400
 
 
 @bookmarks_bp.route("/folders/<folder_id>", methods=["GET"])
