@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask_cors import CORS
+from .db import create_db, db
 from .models import *
 from .routes.hello import hello_bp
 from .routes.bookmarks import bookmarks_bp
@@ -21,8 +22,8 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    db.init_app(app)
     with app.app_context():
+        db.init_app(app)
         # db.drop_all()
         db.create_all()
 

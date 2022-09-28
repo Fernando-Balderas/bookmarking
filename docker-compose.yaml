@@ -17,11 +17,22 @@ services:
   #   volumes:
   #     - "./api:/home"
 
-  bookmarking-db:
+  bookmarking-db-dev:
     image: postgres:14.3
     restart: always
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: examplepassword
-      POSTGRES_DB: bookmarking
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devexamplepassword
+      POSTGRES_DB: bookmarking_dev
+
+  bookmarking-db-test:
+    image: postgres:14.3
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testexamplepassword
+      POSTGRES_DB: bookmarking_test

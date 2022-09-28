@@ -8,16 +8,19 @@ folders_bp = Blueprint("folders", __name__)
 
 @folders_bp.route("", methods=["GET", "POST"])
 def folders():
-    if request.method == "POST":
-        body = request.get_json()
-        folder = Folder(name=body.get("name"),
-                        description=body.get("description"))
-        db.session.add(folder)
-        db.session.commit()
-        return jsonify({"message": "Folder created", "data": folder.serialize}), status.HTTP_201_CREATED
-    folders = db.session.execute(db.select(Folder)).scalars().all()
-    # TODO: Add not found response
-    return jsonify({"data": [f.serialize for f in folders]})
+    try:
+        if request.method == "POST":
+            body = request.get_json()
+            folder = Folder(name=body.get("name"),
+                            description=body.get("description"))
+            db.session.add(folder)
+            db.session.commit()
+            return jsonify({"message": "Folder created", "data": folder.serialize}), status.HTTP_201_CREATED
+        folders = db.session.execute(db.select(Folder)).scalars().all()
+        # TODO: Add not found response
+        return jsonify({"data": [f.serialize for f in folders]})
+    except exc.SQLAlchemyError as e:
+        return jsonify({"message": "Error"}), 400
 
 
 @folders_bp.route("/<folder_id>", methods=["PUT", "DELETE"])

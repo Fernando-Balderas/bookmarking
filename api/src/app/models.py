@@ -1,8 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey, func
 from datetime import datetime
-
-db = SQLAlchemy()
+from .db import db
 
 
 class Bookmark(db.Model):
